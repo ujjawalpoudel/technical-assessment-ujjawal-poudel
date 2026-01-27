@@ -36,7 +36,18 @@ def list_articles(featured: Optional[bool] = Query(None)):
 @app.get("/api/articles/{article_id}", response_model=Article)
 def get_article(article_id: int):
     try:
-        return ARTICLES[article_id]
+        # it takes too much operation, first check each and every articles from ARTICLES data
+        # and check with the input id with articles id, if it found it will return the given value
+        # other wise raise expection as Article not found
+
+        # TODO:- More optimization need for large dataset.
+        
+        for a in ARTICLES:
+            if a.id == article_id:
+                return a
+        
+        raise HTTPException(status_code=404, detail="Article not found")
+        # return ARTICLES[article_id]
     except IndexError:
         raise HTTPException(status_code=404, detail="Article not found")
 
