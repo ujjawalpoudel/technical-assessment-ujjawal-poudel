@@ -9,7 +9,7 @@ export function ArticleList({ articles, onSelect }) {
     <ul>
       {articles.map((article) => (
         <li key={article.id}>
-          <button type="button" onClick={() => onSelect(article)}>
+          <button type="button" onClick={() => onSelect(article.id)}>
             {article.title}
           </button>
         </li>
