@@ -41,7 +41,7 @@ def get_article(article_id: int):
         # other wise raise expection as Article not found
 
         # TODO:- More optimization need for large dataset.
-        
+
         for a in ARTICLES:
             if a.id == article_id:
                 return a
@@ -54,10 +54,19 @@ def get_article(article_id: int):
 
 @app.post("/api/articles", response_model=Article, status_code=201)
 def create_article(article: Article):
+
+    # raise exception :- if there is already same id exist in the data, then return with message that data 
+    # already in database / list
+
+    # otherwise only it will add to ARTICLES list
     for idx, existing in enumerate(ARTICLES):
         if existing.id == article.id:
-            ARTICLES[idx] = article
-            return article
+            raise HTTPException(
+                status_code=409,
+                detail="Article with this ID already exists"
+            )
+            # ARTICLES[idx] = article
+            # return article
 
     ARTICLES.append(article)
     return article
