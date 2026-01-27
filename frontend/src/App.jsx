@@ -35,7 +35,7 @@ export default function App() {
     return () => {
       isCancelled = true;
     };
-  }, []); // ← bug here
+  }, [showFeaturedOnly]); // ← bug here
 
   const handleSelectArticle = async (articleId) => {
     try {
