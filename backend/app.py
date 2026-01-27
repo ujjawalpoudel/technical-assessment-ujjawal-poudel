@@ -19,19 +19,16 @@ app.add_middleware(
 
 
 @app.get("/api/articles", response_model=List[Article])
-def list_articles(featured: Optional[str] = Query(None)):
+def list_articles(featured: Optional[bool] = Query(None)):
     articles = ARTICLES
 
     if featured:
-        # Intended: return only featured when featured == "true",
-        # and only non-featured when featured == "false".
-        if featured.lower() == "true":
-            articles = [a for a in articles if a.is_featured]
-        elif featured.lower() == "false":
-            articles = [a for a in articles if not a.is_featured]
-        else:
-            # unexpected value, just return all
-            pass
+        # return only featured when featured == "true",
+        articles = [a for a in articles if a.is_featured]
+
+    else:
+        # only non-featured when featured == "false".
+        articles = [a for a in articles if not a.is_featured]
 
     return articles
 
